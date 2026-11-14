@@ -3,6 +3,9 @@
 
 # ignore lib file to not push SFML
 lib/
+build/
+out/
+x64-Debug/
 
 ### C++ ###
 # Prerequisites
