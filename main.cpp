@@ -162,7 +162,7 @@ void render(sf::RenderWindow& window) {
 }
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode({ game_width, game_height }), "PONG");
+    sf::RenderWindow window(sf::VideoMode({ game_width, game_height }), "FIH");
     window.setVerticalSyncEnabled(true);
     init();
     //initialise and load
