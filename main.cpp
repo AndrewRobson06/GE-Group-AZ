@@ -32,12 +32,12 @@ int score[2] = { 0,0 };
 
 //Objects of the game
 sf::CircleShape fish;
-sf::RectangleShape hook;
+//sf::RectangleShape hook;
 sf::Text text;
 sf::Font font;
 
 sf::Texture spritesheet;
-sf::Sprite test_hook;
+sf::Sprite hook;
 
 
 void reset() {
@@ -60,11 +60,11 @@ void init() {
     if (!spritesheet.loadFromFile("C:/Users/evehc/OneDrive/Desktop/uniyear3/games_engineering/cwrepos/pull0/resources/img/fish_sheet.png")) {
         std::cerr << "Failed to load spritesheet!" << std::endl;
     }
-    test_hook.setTexture(spritesheet);
-    test_hook.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(64, 64))); 
+    hook.setTexture(spritesheet);
+    hook.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(64, 64))); 
 
     // Set size and origin of paddles
-    hook.setSize(paddle_size);
+    //hook.setSize(paddle_size);
     hook.setOrigin(paddle_size / 2.f);
     // Set size and origin of ball
     fish.setRadius(ball_radius);
@@ -174,7 +174,6 @@ void render(sf::RenderWindow& window) {
     window.draw(hook);
     window.draw(fish);
     window.draw(text);
-    window.draw(test_hook);
 }
 
 int main() {
