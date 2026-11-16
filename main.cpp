@@ -6,10 +6,10 @@ const sf::Keyboard::Key controls[8] = {
     sf::Keyboard::S,   // Player Down
     sf::Keyboard::A,   // Player Left
     sf::Keyboard::D,   // Player Right
-    sf::Keyboard::Up,  // Player Up
-    sf::Keyboard::Down, // Player Down
-	sf::Keyboard::Left,  // Player Left
-	sf::Keyboard::Right  // Player Right
+    // sf::Keyboard::Up,  // Player Up
+    // sf::Keyboard::Down, // Player Down
+	// sf::Keyboard::Left,  // Player Left
+	// sf::Keyboard::Right  // Player Right
 };
 
 //Parameters
@@ -31,7 +31,7 @@ int score[2] = { 0,0 };
 
 //Objects of the game
 sf::CircleShape ball;
-sf::RectangleShape paddles[2];
+sf::RectangleShape paddles;
 sf::Text text;
 sf::Font font;
 
@@ -40,8 +40,7 @@ void reset() {
     fish_velocity = { (is_player_serving ? initial_velocity_x : -initial_velocity_x), initial_velocity_y };
 
     // reset paddle position
-    paddles[0].setPosition(paddle_offset_wall + paddle_size.x / 2.f, game_height / 2.f);
-    paddles[1].setPosition(game_width - paddle_offset_wall - paddle_size.x / 2.f, game_height / 2.f);
+    paddles.setPosition(paddle_offset_wall + paddle_size.x / 2.f, game_height / 2.f);
     // reset Ball Position in the centre of the left paddle
     ball.setPosition(paddle_offset_wall + paddle_size.x + ball_radius * 2.f, game_height / 2.f);
 
@@ -55,10 +54,8 @@ void reset() {
 
 void init() {
     // Set size and origin of paddles
-    for (sf::RectangleShape& p : paddles) {
-        p.setSize(paddle_size);
-        p.setOrigin(paddle_size / 2.f);
-    }
+    paddles.setSize(paddle_size);
+    paddles.setOrigin(paddle_size / 2.f);
     // Set size and origin of ball
     ball.setRadius(ball_radius);
     ball.setOrigin(ball_radius, ball_radius); //Should be half the ball width and height
@@ -78,30 +75,27 @@ void update(float dt) {
 
 
     // handle paddle movement
-    float direction = 0.0f;
+    sf::Vector2f direction(0.0f, 0.0f);
+
     if (sf::Keyboard::isKeyPressed(controls[0]) &&
-        paddles[0].getPosition().y > paddle_size.y / 2.f) {
-        direction--;
+        paddles.getPosition().y > paddle_size.y / 2.f) {
+        direction.y--;
     }
     if (sf::Keyboard::isKeyPressed(controls[1]) &&
-        paddles[0].getPosition().y < game_height - paddle_size.y / 2.f) {
-        direction++;
+        paddles.getPosition().y < game_height - paddle_size.y / 2.f) {
+        direction.y++;
     }
-
-    paddles[0].move(sf::Vector2f(0.f, direction * paddle_speed * dt));
-
-    // handle paddle movement
-    direction = 0.0f;
     if (sf::Keyboard::isKeyPressed(controls[2]) &&
-        paddles[1].getPosition().y > paddle_size.y / 2.f) {
-        direction--;
+        paddles.getPosition().x > paddle_size.x / 2.f) {
+        direction.x--;
     }
     if (sf::Keyboard::isKeyPressed(controls[3]) &&
-        paddles[1].getPosition().y < game_height - paddle_size.y / 2.f) {
-        direction++;
+        paddles.getPosition().x < game_width - paddle_size.x / 2.f) {
+        direction.x++;
     }
 
-    paddles[1].move(sf::Vector2f(0.f, direction * paddle_speed * dt));
+    paddles.move(sf::Vector2f(direction.x * paddle_speed * dt, direction.y * paddle_speed * dt));
+
     ball.move(fish_velocity * dt);
 
     // check ball collision
@@ -133,9 +127,9 @@ void update(float dt) {
         //ball is inline or behind paddle AND
         bx < paddle_size.x + paddle_offset_wall &&
         //ball is below top edge of paddle AND
-        by > paddles[0].getPosition().y - (paddle_size.y * 0.5) &&
+        by > paddles.getPosition().y - (paddle_size.y * 0.5) &&
         //ball is above bottom edge of paddle
-        by < paddles[0].getPosition().y + (paddle_size.y * 0.5)) {
+        by < paddles.getPosition().y + (paddle_size.y * 0.5)) {
         //bounces off left paddle
         fish_velocity.x *= -velocity_multiplier;
         fish_velocity.y *= velocity_multiplier;
@@ -145,9 +139,9 @@ void update(float dt) {
         //ball is inline or behind paddle AND
         bx > game_width - paddle_size.x - paddle_offset_wall &&
         //ball is below top edge of paddle AND
-        by > paddles[1].getPosition().y - (paddle_size.y * 0.5) &&
+        by > paddles.getPosition().y - (paddle_size.y * 0.5) &&
         //ball is above bottom edge of paddle
-        by < paddles[1].getPosition().y + (paddle_size.y * 0.5)) {
+        by < paddles.getPosition().y + (paddle_size.y * 0.5)) {
         // bounce off right paddle
         fish_velocity.x *= -velocity_multiplier;
         fish_velocity.y *= velocity_multiplier;
@@ -159,8 +153,7 @@ void update(float dt) {
 
 void render(sf::RenderWindow& window) {
     // Draw Everything
-    window.draw(paddles[0]);
-    window.draw(paddles[1]);
+    window.draw(paddles);
     window.draw(ball);
     window.draw(text);
 }
