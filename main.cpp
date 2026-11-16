@@ -30,7 +30,7 @@ const float velocity_multiplier = 1.1f;
 int score[2] = { 0,0 };
 
 //Objects of the game
-sf::CircleShape ball;
+sf::CircleShape fish;
 sf::RectangleShape hook;
 sf::Text text;
 sf::Font font;
@@ -42,7 +42,7 @@ void reset() {
     // reset paddle position
     hook.setPosition(paddle_offset_wall + paddle_size.x / 2.f, game_height / 2.f);
     // reset Ball Position in the centre of the left paddle
-    ball.setPosition(paddle_offset_wall + paddle_size.x + ball_radius * 2.f, game_height / 2.f);
+    fish.setPosition(paddle_offset_wall + paddle_size.x + ball_radius * 2.f, game_height / 2.f);
 
     // Update Score Text
     std::stringstream sstr;
@@ -57,8 +57,8 @@ void init() {
     hook.setSize(paddle_size);
     hook.setOrigin(paddle_size / 2.f);
     // Set size and origin of ball
-    ball.setRadius(ball_radius);
-    ball.setOrigin(ball_radius, ball_radius); //Should be half the ball width and height
+    fish.setRadius(ball_radius);
+    fish.setOrigin(ball_radius, ball_radius); //Should be half the ball width and height
 
     // Load font-face from res dir
     font.loadFromFile("/resources/fonts/RobotoMono-Regular.ttf"); //not good
@@ -101,22 +101,22 @@ void update(float dt) {
 
     hook.move(sf::Vector2f(direction.x * paddle_speed * dt, direction.y * paddle_speed * dt));
 
-    ball.move(fish_velocity * dt);
+    fish.move(fish_velocity * dt);
 
     // check ball collision
-    const float bx = ball.getPosition().x;
-    const float by = ball.getPosition().y;
+    const float bx = fish.getPosition().x;
+    const float by = fish.getPosition().y;
     if (by > game_height) { //bottom wall
         // bottom wall
         fish_velocity.x *= velocity_multiplier;
         fish_velocity.y *= -velocity_multiplier;
-        ball.move(sf::Vector2f(0.f, -10.f));
+        fish.move(sf::Vector2f(0.f, -10.f));
     }
     else if (by < 0) { //top wall
         // top wall
         fish_velocity.x *= velocity_multiplier;
         fish_velocity.y *= -velocity_multiplier;
-        ball.move(sf::Vector2f(0.f, 10.f));
+        fish.move(sf::Vector2f(0.f, 10.f));
     }
     else if (bx > game_width) {
         // right wall
@@ -138,7 +138,7 @@ void update(float dt) {
         //bounces off left paddle
         fish_velocity.x *= -velocity_multiplier;
         fish_velocity.y *= velocity_multiplier;
-        ball.move(sf::Vector2f(+10.f, 0));
+        fish.move(sf::Vector2f(+10.f, 0));
     }
     else if (
         //ball is inline or behind paddle AND
@@ -150,7 +150,7 @@ void update(float dt) {
         // bounce off right paddle
         fish_velocity.x *= -velocity_multiplier;
         fish_velocity.y *= velocity_multiplier;
-        ball.move(sf::Vector2f(-10.f, 0));
+        fish.move(sf::Vector2f(-10.f, 0));
     }
 }
 
@@ -159,7 +159,7 @@ void update(float dt) {
 void render(sf::RenderWindow& window) {
     // Draw Everything
     window.draw(hook);
-    window.draw(ball);
+    window.draw(fish);
     window.draw(text);
 }
 
