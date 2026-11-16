@@ -1,11 +1,15 @@
 #include <sstream>
 #include <SFML/Graphics.hpp>
 
-const sf::Keyboard::Key controls[4] = {
-    sf::Keyboard::W,   // Player1 UP
-    sf::Keyboard::S,   // Player1 Down
-    sf::Keyboard::Up,  // Player2 UP
-    sf::Keyboard::Down // Player2 Down
+const sf::Keyboard::Key controls[8] = {
+    sf::Keyboard::W,   // Player Up
+    sf::Keyboard::S,   // Player Down
+    sf::Keyboard::A,   // Player Left
+    sf::Keyboard::D,   // Player Right
+    sf::Keyboard::Up,  // Player Up
+    sf::Keyboard::Down, // Player Down
+	sf::Keyboard::Left,  // Player Left
+	sf::Keyboard::Right  // Player Right
 };
 
 //Parameters
@@ -17,7 +21,7 @@ const float paddle_speed = 400.f;
 const float paddle_offset_wall = 10.f;
 const float time_step = 0.017f; //60 fps
 
-sf::Vector2f ball_velocity;
+sf::Vector2f fish_velocity;
 bool is_player_serving = true;
 const float initial_velocity_x = 100.f;
 const float initial_velocity_y = 60.f;
@@ -33,7 +37,7 @@ sf::Font font;
 
 
 void reset() {
-    ball_velocity = { (is_player_serving ? initial_velocity_x : -initial_velocity_x), initial_velocity_y };
+    fish_velocity = { (is_player_serving ? initial_velocity_x : -initial_velocity_x), initial_velocity_y };
 
     // reset paddle position
     paddles[0].setPosition(paddle_offset_wall + paddle_size.x / 2.f, game_height / 2.f);
@@ -60,7 +64,7 @@ void init() {
     ball.setOrigin(ball_radius, ball_radius); //Should be half the ball width and height
 
     // Load font-face from res dir
-    font.loadFromFile("C:/Users/User/source/repos/lab_2/resources/fonts/RobotoMono-Regular.ttf"); //not good
+    font.loadFromFile("/resources/fonts/RobotoMono-Regular.ttf"); //not good
     // Set text element to use font
     text.setFont(font);
     // set the character size to 24 pixels
@@ -98,21 +102,21 @@ void update(float dt) {
     }
 
     paddles[1].move(sf::Vector2f(0.f, direction * paddle_speed * dt));
-    ball.move(ball_velocity * dt);
+    ball.move(fish_velocity * dt);
 
     // check ball collision
     const float bx = ball.getPosition().x;
     const float by = ball.getPosition().y;
     if (by > game_height) { //bottom wall
         // bottom wall
-        ball_velocity.x *= velocity_multiplier;
-        ball_velocity.y *= -velocity_multiplier;
+        fish_velocity.x *= velocity_multiplier;
+        fish_velocity.y *= -velocity_multiplier;
         ball.move(sf::Vector2f(0.f, -10.f));
     }
     else if (by < 0) { //top wall
         // top wall
-        ball_velocity.x *= velocity_multiplier;
-        ball_velocity.y *= -velocity_multiplier;
+        fish_velocity.x *= velocity_multiplier;
+        fish_velocity.y *= -velocity_multiplier;
         ball.move(sf::Vector2f(0.f, 10.f));
     }
     else if (bx > game_width) {
@@ -133,8 +137,8 @@ void update(float dt) {
         //ball is above bottom edge of paddle
         by < paddles[0].getPosition().y + (paddle_size.y * 0.5)) {
         //bounces off left paddle
-        ball_velocity.x *= -velocity_multiplier;
-        ball_velocity.y *= velocity_multiplier;
+        fish_velocity.x *= -velocity_multiplier;
+        fish_velocity.y *= velocity_multiplier;
         ball.move(sf::Vector2f(+10.f, 0));
     }
     else if (
@@ -145,8 +149,8 @@ void update(float dt) {
         //ball is above bottom edge of paddle
         by < paddles[1].getPosition().y + (paddle_size.y * 0.5)) {
         // bounce off right paddle
-        ball_velocity.x *= -velocity_multiplier;
-        ball_velocity.y *= velocity_multiplier;
+        fish_velocity.x *= -velocity_multiplier;
+        fish_velocity.y *= velocity_multiplier;
         ball.move(sf::Vector2f(-10.f, 0));
     }
 }
