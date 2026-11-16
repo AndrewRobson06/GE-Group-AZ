@@ -5,14 +5,45 @@
 #include <iostream> // add to GDD
 #include <ctime> //add to GDD
 
+using namespace std;
+
 /*
 	How the logic foe determining what fish will be caught works like this:
 	Each rarity holds a diffrent number of fish that belong to that raity. Each fish in that rarity has a range in which thier fishID represents.
 	For example: a goldfish is in the common rarity and has a fishID of 35.
 	Later on, the code will check the rarity, then it will check the fishID
 */
-int fishID = 0; // get a number between 1 and 100 to determine what fish will be caught
+
+int fishID = 0; // value used to get the fish from the array
 int fishRarity = 0; // get a number between 1 and 100 to determine what rarity the fish is from
+
+//variables for the fish rarity chances
+
+/*
+	The rarites go:
+
+	1% ( == 100): Legendary
+	5% ( < 100 AND >= 95): Ultra Rare
+	14% ( < 95 AND >= 81): Rare
+	35% (< 81 OR >= 46): Uncommon
+	45% ( < 46 ): Common
+*/
+int legendaryChance = 100; // 1%
+
+//5%
+int ultraRareChanceMax = 100;
+int ultraRareChanceMin = 95;
+
+//14%
+int rareChanceMax = 95;
+int rareChanceMin = 81;
+
+//35%
+int uncommonChanceMax = 81;
+int uncommonChanceMin = 46;
+
+//45% 
+int commonChance = 46;
 
 // the value and size of the chosen fish
 int value = 0;
@@ -21,16 +52,61 @@ int size = 0;
 //the rarity of the fish 0 = common, 1 = uncommon, 2 = rare, 3 = ultra rare, 4 = legendary
 int rarity = 0;
 
+//the chosen fish
+std::string chosenFish = "none";
+
+//List of all common fish
+std::string commonFish[3] = { "Goldfish", "Perch", "PLACEHOLDER" };
+int commonFishArraySize = sizeof(commonFish);
+
+//List of all uncommon fish
+std::string uncommonFish[3] = { "PLACEHOLDER", "PLACEHOLDER2", "PLACEHOLDER3" };
+int uncommonFishArraySize = sizeof(uncommonFish);
+
+//List of all rare fish
+std::string rareFish[3] = { "PLACEHOLDER", "PLACEHOLDER2", "PLACEHOLDER3" };
+int rareFishArraySize = sizeof(rareFish);
+
+//List of all ultra rare fish
+std::string ultraRareFish[3] = { "PLACEHOLDER", "PLACEHOLDER2", "PLACEHOLDER3" };
+int ultraRareFishArraySize = sizeof(ultraRareFish);
+
+//List of all legendary fish
+std::string legendaryFish[3] = { "PLACEHOLDER", "PLACEHOLDER2", "PLACEHOLDER3" };
+int legendaryFishArraySize = sizeof(legendaryFish);
+
+
 //get a unique random number each time
 void randomise() {
 	srand(time(0));
 
 	fishRarity = rand() % 101;
-	fishID = rand() % 101;
+	//fishID = rand() % 101;
+}
+
+void getFish() {
+
+	if (fishRarity < 1000){
+
+		rarity = 4; //Legendary
+
+		fishID = rand() % legendaryFishArraySize - 1; //get a random number used to pick a fish from
+
+		chosenFish = legendaryFish[fishID];
+
+		//return chosenFish;
+	}
 }
 
 int main() {
 	randomise();
+	getFish();
+	
+	//testing values
 	std::cout << fishID;
 	std::cout << fishRarity;
+	std::cout << commonFish[1];
+	//std::cout << rarity;
+	//cout << chosenFish;
+	
 }
