@@ -15,7 +15,7 @@ add_subdirectory("lib/SFML")
 set(SFML_INCS "lib/SFML/include")
 link_directories("${CMAKE_BINARY_DIR}/lib/SFML/lib")
 
-#### Practical 1 ####
+#### CW ####
 add_executable(FIH main.cpp)
 target_include_directories(FIH PRIVATE ${SFML_INCS})
 target_link_libraries(FIH sfml-graphics)

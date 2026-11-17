@@ -83,7 +83,6 @@ void init() {
 
 void update(float dt) {
 
-
     // handle hook movement
     sf::Vector2f direction(0.0f, 0.0f);
 
@@ -114,28 +113,28 @@ void update(float dt) {
     fish.move(fish_velocity * dt);
 
     // check fish collision
-    const float bx = fish.getPosition().x;
-    const float by = fish.getPosition().y;
+    const float fish_x = fish.getPosition().x;
+    const float fish_y = fish.getPosition().y;
 
-    if (by + ball_radius > game_height) {
+    if (fish_y + ball_radius > game_height) {
         // bottom wall
         fish_velocity.x *= velocity_multiplier;
         fish_velocity.y *= -velocity_multiplier;
         fish.move(sf::Vector2f(0.f, -10.f));
     }
-    else if (by - ball_radius < 0.f) {
+    else if (fish_y - ball_radius < 0.f) {
         // top wall
         fish_velocity.x *= velocity_multiplier;
         fish_velocity.y *= -velocity_multiplier;
         fish.move(sf::Vector2f(0.f, 10.f));
     }
-    if (bx - ball_radius < 0.f) {
+    if (fish_x - ball_radius < 0.f) {
         // left wall
         fish_velocity.x *= -velocity_multiplier;
         fish_velocity.y *= velocity_multiplier;
         fish.move(sf::Vector2f(10.f, 0.f));
     }
-    else if (bx + ball_radius > game_width) {
+    else if (fish_x + ball_radius > game_width) {
         // right wall
         fish_velocity.x *= -velocity_multiplier;
         fish_velocity.y *= velocity_multiplier;
@@ -143,25 +142,36 @@ void update(float dt) {
     }
 
     // check hook collision
-    const float hx = hook.getPosition().x;
-    const float hy = hook.getPosition().y;
+    const float hook_x = hook.getPosition().x;
+    const float hook_y = hook.getPosition().y;
 
-    if (hy + hook_size.y / 2.f > game_height) {
+    if (hook_y + hook_size.y / 2.f > game_height) {
         // bottom wall
         hook.move(sf::Vector2f(0.f, -10.f));
     }
-    else if (hy - hook_size.y / 2.f < 0.f) {
+    else if (hook_y - hook_size.y / 2.f < 0.f) {
         // top wall
         hook.move(sf::Vector2f(0.f, 10.f));
     }
-    if (hx - hook_size.x / 2.f < 0.f) {
+    if (hook_x - hook_size.x / 2.f < 0.f) {
         // left wall
         hook.move(sf::Vector2f(10.f, 0.f));
     }
-    else if (hx + hook_size.x / 2.f > game_width) {
+    else if (hook_x + hook_size.x / 2.f > game_width) {
         // right wall
         hook.move(sf::Vector2f(-10.f, 0.f));
     }
+
+    if (
+        //fish is overlapping hook
+        fish_x < hook_size.x + hook_offset_wall &&
+        //fish is above bottom edge of hook
+        fish_y < hook.getPosition().y + (hook_size.y * 0.5)) {
+        //bounces off left hook
+        fish_velocity.x *= -velocity_multiplier;
+        fish_velocity.y *= velocity_multiplier;
+        fish.move(sf::Vector2f(+10.f, 0));
+    }   
 }
 
 void render(sf::RenderWindow& window) {
