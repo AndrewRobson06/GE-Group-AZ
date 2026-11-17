@@ -15,7 +15,7 @@ const sf::Keyboard::Key controls[8] = {
 
 //Parameters
 const sf::Vector2f paddle_size(25.f, 100.f);
-const float ball_radius = 10.f;
+const float ball_radius = 32.f;
 const int game_width = 800;
 const int game_height = 600;
 const float paddle_speed = 400.f;
@@ -113,57 +113,33 @@ void update(float dt) {
 
     fish.move(fish_velocity * dt);
 
-    // check ball collision
+    // check fish collision
     const float bx = fish.getPosition().x;
     const float by = fish.getPosition().y;
-    if (by > game_height - paddle_size.x - paddle_offset_wall) {
+
+    if (by + ball_radius > game_height) {
         // bottom wall
         fish_velocity.x *= velocity_multiplier;
         fish_velocity.y *= -velocity_multiplier;
         fish.move(sf::Vector2f(0.f, -10.f));
     }
-    else if (by < 0) {
+    else if (by - ball_radius < 0.f) {
         // top wall
         fish_velocity.x *= velocity_multiplier;
         fish_velocity.y *= -velocity_multiplier;
         fish.move(sf::Vector2f(0.f, 10.f));
     }
-    if (bx < 0) {
+    if (bx - ball_radius < 0.f) {
         // left wall
         fish_velocity.x *= -velocity_multiplier;
         fish_velocity.y *= velocity_multiplier;
         fish.move(sf::Vector2f(10.f, 0.f));
     }
-    else if (bx > game_width - paddle_size.x - paddle_offset_wall) {
+    else if (bx + ball_radius > game_width) {
         // right wall
         fish_velocity.x *= -velocity_multiplier;
         fish_velocity.y *= velocity_multiplier;
         fish.move(sf::Vector2f(-10.f, 0.f));
-    }
-
-    else if (
-        //ball is inline or behind paddle AND
-        bx < paddle_size.x + paddle_offset_wall &&
-        //ball is below top edge of paddle AND
-        by > hook.getPosition().y - (paddle_size.y * 0.5) &&
-        //ball is above bottom edge of paddle
-        by < hook.getPosition().y + (paddle_size.y * 0.5)) {
-        //bounces off left paddle
-        fish_velocity.x *= -velocity_multiplier;
-        fish_velocity.y *= velocity_multiplier;
-        fish.move(sf::Vector2f(+10.f, 0));
-    }
-    else if (
-        //ball is inline or behind paddle AND
-        bx > game_width - paddle_size.x - paddle_offset_wall &&
-        //ball is below top edge of paddle AND
-        by > hook.getPosition().y - (paddle_size.y * 0.5) &&
-        //ball is above bottom edge of paddle
-        by < hook.getPosition().y + (paddle_size.y * 0.5)) {
-        // bounce off right paddle
-        fish_velocity.x *= -velocity_multiplier;
-        fish_velocity.y *= velocity_multiplier;
-        fish.move(sf::Vector2f(-10.f, 0));
     }
 }
 
