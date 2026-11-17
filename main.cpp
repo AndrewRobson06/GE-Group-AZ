@@ -31,13 +31,14 @@ const float velocity_multiplier = 1.1f;
 int score[2] = { 0,0 };
 
 //Objects of the game
-sf::CircleShape fish;
+//sf::CircleShape fish;
 //sf::RectangleShape hook;
 sf::Text text;
 sf::Font font;
 
 sf::Texture spritesheet;
 sf::Sprite hook;
+sf::Sprite fish;
 
 
 void reset() {
@@ -63,11 +64,14 @@ void init() {
     hook.setTexture(spritesheet);
     hook.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(64, 64))); 
 
+    fish.setTexture(spritesheet);
+    fish.setTextureRect(sf::IntRect(sf::Vector2i(65, 0), sf::Vector2i(64, 64)));
+
     // Set size and origin of paddles
     //hook.setSize(paddle_size);
     hook.setOrigin(paddle_size / 2.f);
     // Set size and origin of ball
-    fish.setRadius(ball_radius);
+    //fish.setRadius(ball_radius);
     fish.setOrigin(ball_radius, ball_radius); //Should be half the ball width and height
 
     // Load font-face from res dir
