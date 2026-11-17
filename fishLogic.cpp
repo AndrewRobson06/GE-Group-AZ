@@ -9,9 +9,9 @@ using namespace std;
 
 /*
 	How the logic foe determining what fish will be caught works like this:
-	Each rarity holds a diffrent number of fish that belong to that raity. Each fish in that rarity has a range in which thier fishID represents.
-	For example: a goldfish is in the common rarity and has a fishID of 35.
-	Later on, the code will check the rarity, then it will check the fishID
+	while there is no chosen fish, the algorithm will do cascading rolls to decide the rarity.
+	it starts with rolling for legendary and if that fails it rolls again for ultra rare and so on until one hits.
+	once a rarity hits, it then chooses a random fish from that rarites array and then returns chosenFish
 */
 
 int fishID = 0; // value used to get the fish from the array
@@ -20,7 +20,7 @@ int fishRarity = 0; // get a number between 1 and 100 to determine what rarity t
 //variables for the fish rarity chances
 
 /*
-	The rarites go:
+	The rarites go (base odds):
 
 	1% ( == 100): Legendary
 	5% ( < 100 AND >= 95): Ultra Rare
@@ -28,6 +28,7 @@ int fishRarity = 0; // get a number between 1 and 100 to determine what rarity t
 	35% (< 81 OR >= 46): Uncommon
 	45% ( < 46 ): Common
 */
+
 int legendaryChance = 100; // 1%
 
 //5%
@@ -81,16 +82,17 @@ void randomise() {
 	srand(time(0));
 
 	fishRarity = rand() % 101;
+	//fishRarity = 100;
 	//fishID = rand() % 101;
 }
 
 void getFish() {
 
-	if (fishRarity < 1000){
+	if (fishRarity < legendaryChance){
 
 		rarity = 4; //Legendary
 
-		fishID = rand() % legendaryFishArraySize - 1; //get a random number used to pick a fish from
+		fishID = rand() % legendaryFishArraySize; //get a random number used to pick a fish from
 
 		chosenFish = legendaryFish[fishID];
 
@@ -103,10 +105,12 @@ int main() {
 	getFish();
 	
 	//testing values
-	std::cout << fishID;
-	std::cout << fishRarity;
-	std::cout << commonFish[1];
+	std::cout << fishID << "\n";
+	std::cout << fishRarity << "\n";
+	std::cout << commonFish[1] << "\n";
+	std::cout << legendaryFishArraySize << "\n";
 	//std::cout << rarity;
-	//cout << chosenFish;
+	//std::cout << chosenFish << "\n";
+	printf("%s\n", chosenFish.c_str());
 	
 }
