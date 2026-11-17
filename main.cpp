@@ -15,18 +15,18 @@ const sf::Keyboard::Key controls[8] = {
 
 //Parameters
 const sf::Vector2f hook_size(64.f, 64.f);
-const float ball_radius = 32.f;
+const float fish_radius = 32.f;
 const int game_width = 800;
 const int game_height = 600;
 const float hook_speed = 400.f;
 const float hook_offset_wall = 10.f;
 const float time_step = 0.017f; //60 fps
-
 sf::Vector2f fish_velocity;
 bool is_player_serving = true;
 const float initial_velocity_x = 100.f;
 const float initial_velocity_y = 60.f;
 const float velocity_multiplier = 1.0f;
+const bool is_overlapping_fish_hook = false;
 
 int score[2] = { 0,0 };
 
@@ -43,9 +43,9 @@ void reset() {
     fish_velocity = { (is_player_serving ? initial_velocity_x : -initial_velocity_x), initial_velocity_y };
 
     // set hook position
-    hook.setPosition(hook_offset_wall + hook_size.x + ball_radius * 2.f, game_height / 2.f);
+    hook.setPosition(hook_offset_wall + hook_size.x + fish_radius * 2.f, game_height / 2.f);
 	// set fish position
-    fish.setPosition(hook_offset_wall + hook_size.x + ball_radius * 2.f, game_height / 2.f);
+    fish.setPosition(hook_offset_wall + hook_size.x + fish_radius * 2.f, game_height / 2.f);
 
     // Update Score Text
     std::stringstream sstr;
@@ -67,8 +67,8 @@ void init() {
 
     // Set size and origin of hook
     hook.setOrigin(hook_size / 2.f);
-    // Set size and origin of ball
-    fish.setOrigin(ball_radius, ball_radius); //Should be half the ball width and height
+    // Set size and origin of fish
+    fish.setOrigin(fish_radius, fish_radius); //Should be half the fish width and height
 
     // Load font-face from res dir
     font.loadFromFile("C:/Users/evehc/OneDrive/Desktop/uniyear3/games_engineering/cwrepos/pull0/resources/fonts/RobotoMono-Regular.ttf"); //not good
@@ -116,25 +116,25 @@ void update(float dt) {
     const float fish_x = fish.getPosition().x;
     const float fish_y = fish.getPosition().y;
 
-    if (fish_y + ball_radius > game_height) {
+    if (fish_y + fish_radius > game_height) {
         // bottom wall
         fish_velocity.x *= velocity_multiplier;
         fish_velocity.y *= -velocity_multiplier;
         fish.move(sf::Vector2f(0.f, -10.f));
     }
-    else if (fish_y - ball_radius < 0.f) {
+    else if (fish_y - fish_radius < 0.f) {
         // top wall
         fish_velocity.x *= velocity_multiplier;
         fish_velocity.y *= -velocity_multiplier;
         fish.move(sf::Vector2f(0.f, 10.f));
     }
-    if (fish_x - ball_radius < 0.f) {
+    if (fish_x - fish_radius < 0.f) {
         // left wall
         fish_velocity.x *= -velocity_multiplier;
         fish_velocity.y *= velocity_multiplier;
         fish.move(sf::Vector2f(10.f, 0.f));
     }
-    else if (fish_x + ball_radius > game_width) {
+    else if (fish_x + fish_radius > game_width) {
         // right wall
         fish_velocity.x *= -velocity_multiplier;
         fish_velocity.y *= velocity_multiplier;
@@ -162,16 +162,17 @@ void update(float dt) {
         hook.move(sf::Vector2f(-10.f, 0.f));
     }
 
+
     if (
         //fish is overlapping hook
-        fish_x < hook_size.x + hook_offset_wall &&
-        //fish is above bottom edge of hook
-        fish_y < hook.getPosition().y + (hook_size.y * 0.5)) {
-        //bounces off left hook
-        fish_velocity.x *= -velocity_multiplier;
-        fish_velocity.y *= velocity_multiplier;
-        fish.move(sf::Vector2f(+10.f, 0));
-    }   
+        fish_x >= hook.getPosition().x - fish_radius.x &&
+        fish_x <= hook.getPosition().x + fish_radius.x &&
+        fish_y >= hook.getPosition().y - fish_radius.y &&
+        fish_y <= hook.getPosition().y + fish_radius.y);
+        {
+            //overlapping set to true, progress bar increases
+            is_overlapping_fish_hook == true;
+        }
 }
 
 void render(sf::RenderWindow& window) {
