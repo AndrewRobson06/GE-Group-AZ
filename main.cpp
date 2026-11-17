@@ -183,8 +183,9 @@ void update(float dt) {
 
 void render(sf::RenderWindow& window) {
     // Draw Everything
-    window.draw(hook);
     window.draw(fish);
+    window.draw(hook);
+
     if (is_overlapping_fish_hook) {
         window.draw(text);
     }
