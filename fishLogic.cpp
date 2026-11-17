@@ -46,6 +46,9 @@ int uncommonChanceMin = 46;
 //45% 
 int commonChance = 46;
 
+//has a rarity been hit?
+bool hit = false;
+
 // the value and size of the chosen fish
 int value = 0;
 int size = 0;
@@ -54,7 +57,7 @@ int size = 0;
 int rarity = 0;
 
 //the chosen fish
-std::string chosenFish = "none";
+std::string chosenFish = "";
 
 //List of all common fish
 std::string commonFish[3] = { "Goldfish", "Perch", "PLACEHOLDER" };
@@ -76,7 +79,6 @@ int ultraRareFishArraySize = sizeof(ultraRareFish);
 std::string legendaryFish[3] = { "PLACEHOLDER", "PLACEHOLDER2", "PLACEHOLDER3" };
 int legendaryFishArraySize = sizeof(legendaryFish);
 
-
 //get a unique random number each time
 void randomise() {
 	srand(time(0));
@@ -88,16 +90,83 @@ void randomise() {
 
 void getFish() {
 
-	if (fishRarity < legendaryChance){
+	//continue utill a rarity hits
+	while (hit = false) {
 
-		rarity = 4; //Legendary
+		//roll for legendary
+		if (fishRarity == legendaryChance) {
 
-		fishID = rand() % legendaryFishArraySize; //get a random number used to pick a fish from
+			rarity = 4; //Legendary
 
-		chosenFish = legendaryFish[fishID];
+			fishID = rand() % legendaryFishArraySize + 1; //get a random number used to pick a fish from
 
-		//return chosenFish;
+			chosenFish = legendaryFish[fishID];
+
+			hit = true;
+
+			//return chosenFish;
+		}
+		else {
+			randomise();
+		}
+
+		//reroll for ultra rare if legendary missed
+		if (fishRarity < ultraRareChanceMax && fishRarity > ultraRareChanceMin) {
+
+			rarity = 3; //Ultra rare
+
+			fishID = rand() % ultraRareFishArraySize + 1; //get a random number used to pick a fish from
+
+			chosenFish = ultraRareFish[fishID];
+
+			hit = true;
+		}
+		else {
+			randomise();
+		}
+
+		//reroll for rare if ultra rare missed
+		if (fishRarity < rareChanceMax && fishRarity > rareChanceMin) {
+
+			rarity = 2; //rare
+
+			fishID = rand() % rareFishArraySize + 1; //get a random number used to pick a fish from
+
+			chosenFish = rareFish[fishID];
+
+			hit = true;
+
+		}
+		else {
+			randomise();
+		}
+
+		//reroll for uncommon if rare missed
+		if (fishRarity < uncommonChanceMax && fishRarity > uncommonChanceMin) {
+
+			rarity = 1; //uncommon
+
+			fishID = rand() % uncommonFishArraySize + 1; //get a random number used to pick a fish from
+
+			chosenFish = uncommonFish[1];
+
+			hit = true;
+		}
+		//since uncommon failed, it must be common
+		else {
+
+			rarity = 0; //common
+
+			fishID = rand() % commonFishArraySize + 1; //get a random number used to pick a fish from
+
+			chosenFish = commonFish[1];
+
+			hit = true;
+
+		}
+
 	}
+	
 }
 
 int main() {
@@ -107,10 +176,10 @@ int main() {
 	//testing values
 	std::cout << fishID << "\n";
 	std::cout << fishRarity << "\n";
-	std::cout << commonFish[1] << "\n";
-	std::cout << legendaryFishArraySize << "\n";
+	//std::cout << commonFish[1] << "\n";
+	//std::cout << legendaryFishArraySize << "\n";
 	//std::cout << rarity;
-	//std::cout << chosenFish << "\n";
+	std::cout << chosenFish << "\n";
 	printf("%s\n", chosenFish.c_str());
 	
 }
