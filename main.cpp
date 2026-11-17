@@ -128,16 +128,16 @@ void update(float dt) {
         fish_velocity.y *= -velocity_multiplier;
         fish.move(sf::Vector2f(0.f, 10.f));
     }
-    else if (bx < 0) {
+    if (bx < 0) {
         // left wall
-        fish_velocity.x *= velocity_multiplier;
-        fish_velocity.y *= -velocity_multiplier;
+        fish_velocity.x *= -velocity_multiplier;
+        fish_velocity.y *= velocity_multiplier;
         fish.move(sf::Vector2f(10.f, 0.f));
     }
     else if (bx > game_width) {
         // right wall
-        fish_velocity.x *= velocity_multiplier;
-        fish_velocity.y *= -velocity_multiplier;
+        fish_velocity.x *= -velocity_multiplier;
+        fish_velocity.y *= velocity_multiplier;
         fish.move(sf::Vector2f(-10.f, 0.f));
     }
 
