@@ -26,7 +26,7 @@ sf::Vector2f fish_velocity;
 bool is_player_serving = true;
 const float initial_velocity_x = 100.f;
 const float initial_velocity_y = 60.f;
-const float velocity_multiplier = 1.1f;
+const float velocity_multiplier = 1.0f;
 
 int score[2] = { 0,0 };
 
