@@ -26,7 +26,8 @@ bool is_player_serving = true;
 const float initial_velocity_x = 100.f;
 const float initial_velocity_y = 60.f;
 const float velocity_multiplier = 1.0f;
-const bool is_overlapping_fish_hook = false;
+
+bool is_overlapping_fish_hook = false;
 
 int score[2] = { 0,0 };
 
@@ -47,11 +48,11 @@ void reset() {
 	// set fish position
     fish.setPosition(hook_offset_wall + hook_size.x + fish_radius * 2.f, game_height / 2.f);
 
-    // Update Score Text
+	// set text for showing a fish is hooked
     std::stringstream sstr;
-    sstr << score[0] << " - " << score[1];
+    sstr << "HOOKED!";
     text.setString(sstr.str());
-    // Keep Score Text Centered
+    // keep text centred at top of screen
     text.setPosition((game_width * .5f) - (text.getLocalBounds().width * .5f), 0);
 }
 
@@ -165,21 +166,28 @@ void update(float dt) {
 
     if (
         //fish is overlapping hook
-        fish_x >= hook.getPosition().x - fish_radius.x &&
-        fish_x <= hook.getPosition().x + fish_radius.x &&
-        fish_y >= hook.getPosition().y - fish_radius.y &&
-        fish_y <= hook.getPosition().y + fish_radius.y);
+        fish_x >= hook.getPosition().x - fish_radius &&
+        fish_x <= hook.getPosition().x + fish_radius &&
+        fish_y >= hook.getPosition().y - fish_radius &&
+        fish_y <= hook.getPosition().y + fish_radius)
         {
             //overlapping set to true, progress bar increases
-            is_overlapping_fish_hook == true;
+            is_overlapping_fish_hook = true;
         }
+    else
+    {
+        //not overlapping so set to false
+        is_overlapping_fish_hook = false;
+    }
 }
 
 void render(sf::RenderWindow& window) {
     // Draw Everything
     window.draw(hook);
     window.draw(fish);
-    window.draw(text);
+    if (is_overlapping_fish_hook) {
+        window.draw(text);
+    }
 }
 
 int main() {
