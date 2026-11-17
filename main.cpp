@@ -14,7 +14,7 @@ const sf::Keyboard::Key controls[8] = {
 };
 
 //Parameters
-const sf::Vector2f paddle_size(25.f, 100.f);
+const sf::Vector2f paddle_size(64.f, 64.f);
 const float ball_radius = 32.f;
 const int game_width = 800;
 const int game_height = 600;
@@ -141,9 +141,28 @@ void update(float dt) {
         fish_velocity.y *= velocity_multiplier;
         fish.move(sf::Vector2f(-10.f, 0.f));
     }
+
+    // check hook collision
+    const float hx = hook.getPosition().x;
+    const float hy = hook.getPosition().y;
+
+    if (hy + paddle_size.y / 2.f > game_height) {
+        // bottom wall
+        hook.move(sf::Vector2f(0.f, -10.f));
+    }
+    else if (hy - paddle_size.y / 2.f < 0.f) {
+        // top wall
+        hook.move(sf::Vector2f(0.f, 10.f));
+    }
+    if (hx - paddle_size.x / 2.f < 0.f) {
+        // left wall
+        hook.move(sf::Vector2f(10.f, 0.f));
+    }
+    else if (hx + paddle_size.x / 2.f > game_width) {
+        // right wall
+        hook.move(sf::Vector2f(-10.f, 0.f));
+    }
 }
-
-
 
 void render(sf::RenderWindow& window) {
     // Draw Everything
