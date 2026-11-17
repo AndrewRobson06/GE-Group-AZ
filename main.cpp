@@ -14,12 +14,12 @@ const sf::Keyboard::Key controls[8] = {
 };
 
 //Parameters
-const sf::Vector2f paddle_size(64.f, 64.f);
+const sf::Vector2f hook_size(64.f, 64.f);
 const float ball_radius = 32.f;
 const int game_width = 800;
 const int game_height = 600;
-const float paddle_speed = 400.f;
-const float paddle_offset_wall = 10.f;
+const float hook_speed = 400.f;
+const float hook_offset_wall = 10.f;
 const float time_step = 0.017f; //60 fps
 
 sf::Vector2f fish_velocity;
@@ -42,10 +42,10 @@ sf::Sprite fish;
 void reset() {
     fish_velocity = { (is_player_serving ? initial_velocity_x : -initial_velocity_x), initial_velocity_y };
 
-    // set paddle position
-    hook.setPosition(paddle_offset_wall + paddle_size.x + ball_radius * 2.f, game_height / 2.f);
+    // set hook position
+    hook.setPosition(hook_offset_wall + hook_size.x + ball_radius * 2.f, game_height / 2.f);
 	// set fish position
-    fish.setPosition(paddle_offset_wall + paddle_size.x + ball_radius * 2.f, game_height / 2.f);
+    fish.setPosition(hook_offset_wall + hook_size.x + ball_radius * 2.f, game_height / 2.f);
 
     // Update Score Text
     std::stringstream sstr;
@@ -65,8 +65,8 @@ void init() {
     fish.setTexture(spritesheet);
     fish.setTextureRect(sf::IntRect(sf::Vector2i(65, 0), sf::Vector2i(64, 64)));
 
-    // Set size and origin of paddles
-    hook.setOrigin(paddle_size / 2.f);
+    // Set size and origin of hook
+    hook.setOrigin(hook_size / 2.f);
     // Set size and origin of ball
     fish.setOrigin(ball_radius, ball_radius); //Should be half the ball width and height
 
@@ -84,23 +84,23 @@ void init() {
 void update(float dt) {
 
 
-    // handle paddle movement
+    // handle hook movement
     sf::Vector2f direction(0.0f, 0.0f);
 
     if ((sf::Keyboard::isKeyPressed(controls[0]) || sf::Keyboard::isKeyPressed(controls[4])) &&
-        hook.getPosition().y > paddle_size.y / 2.f) {
+        hook.getPosition().y > hook_size.y / 2.f) {
         direction.y--;
     }
     if ((sf::Keyboard::isKeyPressed(controls[1]) || sf::Keyboard::isKeyPressed(controls[5])) &&
-        hook.getPosition().y < game_height - paddle_size.y / 2.f) {
+        hook.getPosition().y < game_height - hook_size.y / 2.f) {
         direction.y++;
     }
     if ((sf::Keyboard::isKeyPressed(controls[2]) || sf::Keyboard::isKeyPressed(controls[6])) &&
-        hook.getPosition().x > paddle_size.x / 2.f) {
+        hook.getPosition().x > hook_size.x / 2.f) {
         direction.x--;
     }
     if ((sf::Keyboard::isKeyPressed(controls[3]) || sf::Keyboard::isKeyPressed(controls[7])) &&
-        hook.getPosition().x < game_width - paddle_size.x / 2.f) {
+        hook.getPosition().x < game_width - hook_size.x / 2.f) {
         direction.x++;
     }
 
@@ -109,7 +109,7 @@ void update(float dt) {
         direction /= length;
     }
 
-    hook.move(sf::Vector2f(direction.x * paddle_speed * dt, direction.y * paddle_speed * dt));
+    hook.move(sf::Vector2f(direction.x * hook_speed * dt, direction.y * hook_speed * dt));
 
     fish.move(fish_velocity * dt);
 
@@ -146,19 +146,19 @@ void update(float dt) {
     const float hx = hook.getPosition().x;
     const float hy = hook.getPosition().y;
 
-    if (hy + paddle_size.y / 2.f > game_height) {
+    if (hy + hook_size.y / 2.f > game_height) {
         // bottom wall
         hook.move(sf::Vector2f(0.f, -10.f));
     }
-    else if (hy - paddle_size.y / 2.f < 0.f) {
+    else if (hy - hook_size.y / 2.f < 0.f) {
         // top wall
         hook.move(sf::Vector2f(0.f, 10.f));
     }
-    if (hx - paddle_size.x / 2.f < 0.f) {
+    if (hx - hook_size.x / 2.f < 0.f) {
         // left wall
         hook.move(sf::Vector2f(10.f, 0.f));
     }
-    else if (hx + paddle_size.x / 2.f > game_width) {
+    else if (hx + hook_size.x / 2.f > game_width) {
         // right wall
         hook.move(sf::Vector2f(-10.f, 0.f));
     }
