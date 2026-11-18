@@ -9,17 +9,17 @@ using namespace std;
 
 /*
 	How the logic foe determining what fish will be caught works like this:
-	while there is no chosen fish, the algorithm will do cascading rolls to decide the rarity.
+	while there is no hit, the algorithm will do cascading rolls to decide the rarity.
 	it starts with rolling for legendary and if that fails it rolls again for ultra rare and so on until one hits.
 	once a rarity hits, it then chooses a random fish from that rarites array and then returns chosenFish
 */
 
-int fishID = 0; // value used to get the fish from the array
-int fishRarity = 0; // get a number between 1 and 100 to determine what rarity the fish is from
-
-//variables for the fish rarity chances
+int fishID = 0; // Value used to get the fish from the array
+int fishRarity = 0; // Get a number between 1 and 100 to determine what rarity the fish is from
 
 /*
+	Variables for the fish rarity chances
+
 	The rarites go (base odds):
 
 	1% ( == 100): Legendary
@@ -29,7 +29,8 @@ int fishRarity = 0; // get a number between 1 and 100 to determine what rarity t
 	45% ( < 46 ): Common
 */
 
-int legendaryChance = 100; // 1%
+//1%
+int legendaryChance = 100;
 
 //5%
 int ultraRareChanceMax = 100;
@@ -59,127 +60,135 @@ int rarity = 0;
 //the chosen fish
 std::string chosenFish = "";
 
-//List of all common fish
-std::string commonFish[3] = { "Goldfish", "Perch", "PLACEHOLDER" };
-int commonFishArraySize = sizeof(commonFish);
-
-//List of all uncommon fish
-std::string uncommonFish[3] = { "PLACEHOLDER", "PLACEHOLDER2", "PLACEHOLDER3" };
-int uncommonFishArraySize = sizeof(uncommonFish);
-
-//List of all rare fish
-std::string rareFish[3] = { "PLACEHOLDER", "PLACEHOLDER2", "PLACEHOLDER3" };
-int rareFishArraySize = sizeof(rareFish);
+//List of all legendary fish
+std::string legendaryFish[3] = { "LPLACEHOLDER", "LPLACEHOLDER2", "LPLACEHOLDER3" };
+int legendaryFishArraySize = sizeof(legendaryFish) / sizeof(legendaryFish[0]);
 
 //List of all ultra rare fish
-std::string ultraRareFish[3] = { "PLACEHOLDER", "PLACEHOLDER2", "PLACEHOLDER3" };
-int ultraRareFishArraySize = sizeof(ultraRareFish);
+std::string ultraRareFish[3] = { "URPLACEHOLDER", "URPLACEHOLDER2", "URPLACEHOLDER3" };
+int ultraRareFishArraySize = sizeof(ultraRareFish) / sizeof(ultraRareFish[0]);
 
-//List of all legendary fish
-std::string legendaryFish[3] = { "PLACEHOLDER", "PLACEHOLDER2", "PLACEHOLDER3" };
-int legendaryFishArraySize = sizeof(legendaryFish);
+//List of all rare fish
+std::string rareFish[3] = { "RPLACEHOLDER", "RPLACEHOLDER2", "RPLACEHOLDER3" };
+int rareFishArraySize = sizeof(rareFish) / sizeof(rareFish[0]);
 
-//get a unique random number each time
-void randomise() {
-	srand(time(0));
+//List of all uncommon fish
+std::string uncommonFish[3] = { "UCPLACEHOLDER", "UCPLACEHOLDER2", "UCPLACEHOLDER3" };
+int uncommonFishArraySize = sizeof(uncommonFish) / sizeof(uncommonFish[0]);
 
+//List of all common fish
+std::string commonFish[3] = { "Goldfish", "Perch", "CPLACEHOLDER" };
+int commonFishArraySize = sizeof(commonFish) / sizeof(commonFish[0]);
+
+
+//get a unique random number each time from 1 to 100
+int randomise() {
+	
+	//fishRarity = 0;
 	fishRarity = rand() % 101;
-	//fishRarity = 100;
-	//fishID = rand() % 101;
+
+	return fishRarity;
+
 }
 
+//determine which fish is to be caught
 void getFish() {
 
 	//continue utill a rarity hits
-	while (hit = false) {
+	while (hit == false) {
+		randomise();
 
 		//roll for legendary
 		if (fishRarity == legendaryChance) {
 
 			rarity = 4; //Legendary
 
-			fishID = rand() % legendaryFishArraySize + 1; //get a random number used to pick a fish from
+			fishID = rand() % legendaryFishArraySize; //get a random number used to pick a fish from
 
 			chosenFish = legendaryFish[fishID];
 
 			hit = true;
 
-			//return chosenFish;
 		}
-		else {
-			randomise();
-		}
-
-		//reroll for ultra rare if legendary missed
-		if (fishRarity < ultraRareChanceMax && fishRarity > ultraRareChanceMin) {
+		else if (fishRarity < ultraRareChanceMax && fishRarity >= ultraRareChanceMin) {
 
 			rarity = 3; //Ultra rare
 
-			fishID = rand() % ultraRareFishArraySize + 1; //get a random number used to pick a fish from
+			fishID = rand() % ultraRareFishArraySize; //get a random number used to pick a fish from
 
 			chosenFish = ultraRareFish[fishID];
 
 			hit = true;
 		}
-		else {
-			randomise();
-		}
 
-		//reroll for rare if ultra rare missed
-		if (fishRarity < rareChanceMax && fishRarity > rareChanceMin) {
+		else if (fishRarity < rareChanceMax && fishRarity >= rareChanceMin) {
 
 			rarity = 2; //rare
 
-			fishID = rand() % rareFishArraySize + 1; //get a random number used to pick a fish from
+			fishID = rand() % rareFishArraySize; //get a random number used to pick a fish from
 
 			chosenFish = rareFish[fishID];
 
 			hit = true;
-
-		}
-		else {
-			randomise();
 		}
 
-		//reroll for uncommon if rare missed
-		if (fishRarity < uncommonChanceMax && fishRarity > uncommonChanceMin) {
+		else if (fishRarity < uncommonChanceMax && fishRarity >= uncommonChanceMin) {
 
 			rarity = 1; //uncommon
 
-			fishID = rand() % uncommonFishArraySize + 1; //get a random number used to pick a fish from
+			fishID = rand() % uncommonFishArraySize; //get a random number used to pick a fish from
 
-			chosenFish = uncommonFish[1];
+			chosenFish = uncommonFish[fishID];
 
 			hit = true;
 		}
+
 		//since uncommon failed, it must be common
 		else {
 
 			rarity = 0; //common
 
-			fishID = rand() % commonFishArraySize + 1; //get a random number used to pick a fish from
+			fishID = rand() % commonFishArraySize; //get a random number used to pick a fish from
 
-			chosenFish = commonFish[1];
+			chosenFish = commonFish[fishID];
 
 			hit = true;
 
 		}
-
 	}
-	
 }
 
 int main() {
-	randomise();
-	getFish();
+
+	//seed the random number on program start
+	srand(static_cast<unsigned int>(time(0)));
+
+	//testing
+	string input;
 	
-	//testing values
-	std::cout << fishID << "\n";
-	std::cout << fishRarity << "\n";
-	//std::cout << commonFish[1] << "\n";
-	//std::cout << legendaryFishArraySize << "\n";
-	//std::cout << rarity;
-	std::cout << chosenFish << "\n";
-	printf("%s\n", chosenFish.c_str());
-	
+	while (true) {
+
+		cout << "enter r to roll, e to exit: ";
+		cin >> input;
+		cout << "\n";
+
+		if (input == "e") {
+			break;
+		}
+
+		if (input == "r") {
+			getFish();
+
+			//testing values
+			std::cout << "Fish ID: " << fishID << "\n";
+			std::cout << "Fish rarity: " << fishRarity << "\n";
+			//std::cout << commonFishArraySize << "\n";
+			std::cout << "chosen fish: " << chosenFish << "\n";
+			cout << "\n";
+
+			hit = false;
+
+		}
+	}
+	return 0;
 }
