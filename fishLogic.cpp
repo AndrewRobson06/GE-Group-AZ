@@ -60,24 +60,46 @@ int rarity = 0;
 //the chosen fish
 std::string chosenFish = "";
 
+//all values are placeholders and will be changed
+
 //List of all legendary fish
-std::string legendaryFish[3] = { "LPLACEHOLDER", "LPLACEHOLDER2", "LPLACEHOLDER3" };
+std::string legendaryFish[2][3] = { 
+									{ "LPLACEHOLDER", "LPLACEHOLDER2", "LPLACEHOLDER3" },
+								    { "1000", "2000", "3000" } 
+								  };
+
 int legendaryFishArraySize = sizeof(legendaryFish) / sizeof(legendaryFish[0]);
 
 //List of all ultra rare fish
-std::string ultraRareFish[3] = { "URPLACEHOLDER", "URPLACEHOLDER2", "URPLACEHOLDER3" };
+std::string ultraRareFish[2][3] = {
+									{ "URPLACEHOLDER", "URPLACEHOLDER2", "URPLACEHOLDER3" },
+									{ "100", "200", "300" }
+								  };
+
 int ultraRareFishArraySize = sizeof(ultraRareFish) / sizeof(ultraRareFish[0]);
 
 //List of all rare fish
-std::string rareFish[3] = { "RPLACEHOLDER", "RPLACEHOLDER2", "RPLACEHOLDER3" };
+std::string rareFish[2][3] = {
+								{ "RPLACEHOLDER", "RPLACEHOLDER2", "RPLACEHOLDER3" },
+								{ "50", "60", "70"}
+							 };
+
 int rareFishArraySize = sizeof(rareFish) / sizeof(rareFish[0]);
 
 //List of all uncommon fish
-std::string uncommonFish[3] = { "UCPLACEHOLDER", "UCPLACEHOLDER2", "UCPLACEHOLDER3" };
+std::string uncommonFish[2][3] = {
+									{ "UCPLACEHOLDER", "UCPLACEHOLDER2", "UCPLACEHOLDER3" },
+									{ "10", "20", "30"}
+								 };
+
 int uncommonFishArraySize = sizeof(uncommonFish) / sizeof(uncommonFish[0]);
 
 //List of all common fish
-std::string commonFish[3] = { "Goldfish", "Perch", "CPLACEHOLDER" };
+std::string commonFish[2][3] = {
+									{ "Goldfish", "Perch", "CPLACEHOLDER" },
+									{ "1", "2", "3"}
+							   };
+
 int commonFishArraySize = sizeof(commonFish) / sizeof(commonFish[0]);
 
 
@@ -105,7 +127,9 @@ void getFish() {
 
 			fishID = rand() % legendaryFishArraySize; //get a random number used to pick a fish from
 
-			chosenFish = legendaryFish[fishID];
+			chosenFish = legendaryFish[0][fishID];
+
+			value = stoi(legendaryFish[1][fishID]);
 
 			hit = true;
 
@@ -116,7 +140,9 @@ void getFish() {
 
 			fishID = rand() % ultraRareFishArraySize; //get a random number used to pick a fish from
 
-			chosenFish = ultraRareFish[fishID];
+			chosenFish = ultraRareFish[0][fishID];
+
+			value = stoi(ultraRareFish[1][fishID]);
 
 			hit = true;
 		}
@@ -127,7 +153,9 @@ void getFish() {
 
 			fishID = rand() % rareFishArraySize; //get a random number used to pick a fish from
 
-			chosenFish = rareFish[fishID];
+			chosenFish = rareFish[0][fishID];
+
+			value = stoi(rareFish[1][fishID]);
 
 			hit = true;
 		}
@@ -138,7 +166,9 @@ void getFish() {
 
 			fishID = rand() % uncommonFishArraySize; //get a random number used to pick a fish from
 
-			chosenFish = uncommonFish[fishID];
+			chosenFish = uncommonFish[0][fishID];
+
+			value = stoi(uncommonFish[1][fishID]);
 
 			hit = true;
 		}
@@ -150,7 +180,9 @@ void getFish() {
 
 			fishID = rand() % commonFishArraySize; //get a random number used to pick a fish from
 
-			chosenFish = commonFish[fishID];
+			chosenFish = commonFish[0][fishID];
+
+			value = stoi(commonFish[1][fishID]);
 
 			hit = true;
 
@@ -182,8 +214,8 @@ int main() {
 			//testing values
 			std::cout << "Fish ID: " << fishID << "\n";
 			std::cout << "Fish rarity: " << fishRarity << "\n";
-			//std::cout << commonFishArraySize << "\n";
 			std::cout << "chosen fish: " << chosenFish << "\n";
+			std::cout << "Value: " << value << "g" << "\n";
 			cout << "\n";
 
 			hit = false;
