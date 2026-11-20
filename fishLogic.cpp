@@ -64,24 +64,24 @@ std::string chosenFish = "";
 
 //List of all legendary fish
 std::string legendaryFish[2][3] = { 
-									{ "Blue Crayfish", "LPLACEHOLDER2", "LPLACEHOLDER3" },
-								    { "8600", "2000", "3000" } 
+									{ "Blue Crayfish", "Koi",   "Vampire Crab" },
+								    { "9600",		   "15000", "12500" } 
 								  };
 
 int legendaryFishArraySize = sizeof(legendaryFish[0]) / sizeof(legendaryFish[0][0]);
 
 //List of all ultra rare fish
-std::string ultraRareFish[2][3] = {
-									{ "Neon Tetra", "URPLACEHOLDER2", "URPLACEHOLDER3" },
-									{ "1000", "200", "300" }
+std::string ultraRareFish[2][5] = {
+									{ "Neon Tetra", "Zebra Pleco", "Lamprey", "Piranha", "Archerfish"},
+									{ "2350",		"3200",		   "2670",	  "3800",    "2980"}
 								  };
 
 int ultraRareFishArraySize = sizeof(ultraRareFish[0]) / sizeof(ultraRareFish[0][0]);
 
 //List of all rare fish
-std::string rareFish[2][6] = {
-								{ "Steelhead Trout", "Catfish", "Char", "American Eel", "Gar", "White Bass"},
-								{ "86",				 "100",		"110",	"90",			"115", "122"}
+std::string rareFish[2][7] = {
+								{ "Steelhead Trout", "Catfish", "Char", "American Eel", "Gar", "White Bass", "Pike"},
+								{ "186",			 "170",		"210",	"190",			"215", "122",		 "298"}
 							 };
 
 int rareFishArraySize = sizeof(rareFish[0]) / sizeof(rareFish[0][0]);
@@ -89,7 +89,7 @@ int rareFishArraySize = sizeof(rareFish[0]) / sizeof(rareFish[0][0]);
 //List of all uncommon fish
 std::string uncommonFish[2][6] = {
 									{ "Bluegill", "Crab", "Salmon", "Rainbow Trout", "Bass", "Shad"},
-									{ "28",		  "22",	  "40",		"30",			 "35",	 "25"}
+									{ "28",		  "26",	  "40",		"30",			 "35",	 "25"}
 								 };
 
 int uncommonFishArraySize = sizeof(uncommonFish[0]) / sizeof(uncommonFish[0][0]);
