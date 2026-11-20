@@ -64,43 +64,43 @@ std::string chosenFish = "";
 
 //List of all legendary fish
 std::string legendaryFish[2][3] = { 
-									{ "LPLACEHOLDER", "LPLACEHOLDER2", "LPLACEHOLDER3" },
-								    { "1000", "2000", "3000" } 
+									{ "Blue Crayfish", "LPLACEHOLDER2", "LPLACEHOLDER3" },
+								    { "8600", "2000", "3000" } 
 								  };
 
-int legendaryFishArraySize = sizeof(legendaryFish) / sizeof(legendaryFish[0]);
+int legendaryFishArraySize = sizeof(legendaryFish[0]) / sizeof(legendaryFish[0][0]);
 
 //List of all ultra rare fish
 std::string ultraRareFish[2][3] = {
-									{ "URPLACEHOLDER", "URPLACEHOLDER2", "URPLACEHOLDER3" },
-									{ "100", "200", "300" }
+									{ "Neon Tetra", "URPLACEHOLDER2", "URPLACEHOLDER3" },
+									{ "1000", "200", "300" }
 								  };
 
-int ultraRareFishArraySize = sizeof(ultraRareFish) / sizeof(ultraRareFish[0]);
+int ultraRareFishArraySize = sizeof(ultraRareFish[0]) / sizeof(ultraRareFish[0][0]);
 
 //List of all rare fish
-std::string rareFish[2][3] = {
-								{ "RPLACEHOLDER", "RPLACEHOLDER2", "RPLACEHOLDER3" },
-								{ "50", "60", "70"}
+std::string rareFish[2][6] = {
+								{ "Steelhead Trout", "Catfish", "Char", "American Eel", "Gar", "White Bass"},
+								{ "86",				 "100",		"110",	"90",			"115", "122"}
 							 };
 
-int rareFishArraySize = sizeof(rareFish) / sizeof(rareFish[0]);
+int rareFishArraySize = sizeof(rareFish[0]) / sizeof(rareFish[0][0]);
 
 //List of all uncommon fish
-std::string uncommonFish[2][3] = {
-									{ "UCPLACEHOLDER", "UCPLACEHOLDER2", "UCPLACEHOLDER3" },
-									{ "10", "20", "30"}
+std::string uncommonFish[2][6] = {
+									{ "Bluegill", "Crab", "Salmon", "Rainbow Trout", "Bass", "Shad"},
+									{ "28",		  "22",	  "40",		"30",			 "35",	 "25"}
 								 };
 
-int uncommonFishArraySize = sizeof(uncommonFish) / sizeof(uncommonFish[0]);
+int uncommonFishArraySize = sizeof(uncommonFish[0]) / sizeof(uncommonFish[0][0]);
 
 //List of all common fish
-std::string commonFish[2][3] = {
-									{ "Goldfish", "Perch", "CPLACEHOLDER" },
-									{ "1", "2", "3"}
+std::string commonFish[2][6] = {
+									{ "Goldfish", "Perch", "Minnow", "Crayfish", "Brwon Trout", "Carp"},
+									{ "10",		  "13",	   "9",		 "15",		 "18",			"12"}
 							   };
 
-int commonFishArraySize = sizeof(commonFish) / sizeof(commonFish[0]);
+int commonFishArraySize = sizeof(commonFish[0]) / sizeof(commonFish[0][0]);
 
 
 //get a unique random number each time from 1 to 100
