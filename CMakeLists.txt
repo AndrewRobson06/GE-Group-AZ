@@ -16,6 +16,6 @@ set(SFML_INCS "lib/SFML/include")
 link_directories("${CMAKE_BINARY_DIR}/lib/SFML/lib")
 
 #### Practical 1 ####
-add_executable(FIH fishLogic.cpp)
+add_executable(FIH main.cpp)
 target_include_directories(FIH PRIVATE ${SFML_INCS})
 target_link_libraries(FIH sfml-graphics)
