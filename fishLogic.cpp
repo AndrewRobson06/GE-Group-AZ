@@ -50,9 +50,8 @@ int commonChance = 46;
 //has a rarity been hit?
 bool hit = false;
 
-// the value and size of the chosen fish
+// the value of the fish
 int value = 0;
-int size = 0;
 
 //the rarity of the fish 0 = common, 1 = uncommon, 2 = rare, 3 = ultra rare, 4 = legendary
 int rarity = 0;
@@ -195,6 +194,7 @@ int main() {
 	//seed the random number on program start
 	srand(static_cast<unsigned int>(time(0)));
 
+
 	//testing
 	string input;
 	
@@ -223,4 +223,4 @@ int main() {
 		}
 	}
 	return 0;
-}
+} 
